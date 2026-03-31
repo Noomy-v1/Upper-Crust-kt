@@ -180,7 +180,7 @@
         android:background="#F5F5F5"
         android:elevation="10dp"
         android:padding="16dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/titrePanier"
@@ -198,11 +198,12 @@
             android:id="@+id/boutonFermerPanier"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/croix"
             android:padding="8dp"
-            app:tint="@color/texte_fonce" app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/croix"
+            app:layout_constraintBottom_toBottomOf="@id/titrePanier"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/titrePanier"
-            app:layout_constraintBottom_toBottomOf="@id/titrePanier"/>
+            app:tint="@color/texte_fonce" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPanier"
