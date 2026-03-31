@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/tuile_categorie"> <TextView
+    android:id="@+id/texteNomProduitPanier"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Baguette"
+    android:textColor="@color/texte_fonce"
+    android:textSize="18sp"
+    android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="4dp"> <Button
+        android:id="@+id/boutonMoins"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="-"
+        android:textSize="20sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/texte_fonce"
+        android:padding="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp" />
+
+        <TextView
+            android:id="@+id/texteQuantitePanier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="1"
+            android:textColor="@color/texte_fonce"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/boutonPlus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textSize="20sp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/texte_fonce"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textePrixTotalLigne"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="1.20 $"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/texte_fonce"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
