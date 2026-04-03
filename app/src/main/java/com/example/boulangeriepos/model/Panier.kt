@@ -16,9 +16,8 @@ class Panier {
         println("Produit ajouter au panier !")
     }
 
-    fun supprimerProduit(produit: Produit){
-        listeProduit.remove(produit)
-        println("Produit supprimer du panier !")
+    fun supprimerProduit(idProduit: String) {
+        listeProduit.removeAll { it.id == idProduit }
     }
 
     fun modifierQuantite(idProduit: String, nouvelleQuantite : Int){

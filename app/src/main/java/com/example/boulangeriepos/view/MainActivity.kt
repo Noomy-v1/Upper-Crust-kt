@@ -138,10 +138,4 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
         android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
     }
 
-    // Pour naviguer vers les transactions
-    /* findViewById<Button>(R.id.TON_BOUTON_HISTORIQUE).setOnClickListener {
-        val intent = android.content.Intent(this, TransactionActivity::class.java)
-        startActivity(intent)
-    }
-    */
 }

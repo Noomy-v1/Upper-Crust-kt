@@ -12,4 +12,8 @@ data class Produit(
     val prix : Double,
     var quantite : Int = 0,
     var stock : Int,
-    val categorie: Categorie)
+    val categorie: Categorie) {
+    init {
+        require(nom.isNotBlank()) { "Le nom du produit ne peut pas être vide" }
+    }
+}
