@@ -10,7 +10,7 @@ data class Produit(
     val id : String = UUID.randomUUID().toString(),
     val nom : String,
     val prix : Double,
-    var quantite : Int = 0,
+    var quantite : Int = 1,
     var stock : Int,
     val categorie: Categorie) {
     init {

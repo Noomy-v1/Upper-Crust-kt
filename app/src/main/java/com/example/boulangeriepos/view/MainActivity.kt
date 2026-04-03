@@ -130,8 +130,8 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
     }
 
     override fun afficherTotalPanier(total: Double) {
-        val texteTotalFinal = findViewById<TextView>(R.id.texteTotalFinal)
-        texteTotalFinal.text = String.format("%.2f $", total)
+        val texteTotal = findViewById<TextView>(R.id.texteTotalFinal)
+        texteTotal.text = String.format("%.2f $", total)
     }
 
     override fun afficherMessage(message: String) {

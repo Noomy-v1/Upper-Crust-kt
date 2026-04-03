@@ -37,10 +37,12 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
         mettreAJourVuePanier()
     }
 
+    //Prevu d'etre fait
     override fun supprimerProduit(idProduit: String) {
         TODO("Not yet implemented")
     }
 
+    //Prevu d'etre fait
     override fun cliquerAnnulerTransaction() {
         TODO("Not yet implemented")
     }
