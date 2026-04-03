@@ -98,6 +98,14 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
             presenter.cliquerValiderPanier()
             layoutPanier.visibility = View.GONE
         }
+
+        //Bouton pour acceder a l'historique des transactions
+        val boutonHistorique = findViewById<android.widget.ImageButton>(R.id.boutonHistorique)
+
+        boutonHistorique.setOnClickListener {
+            val intent = android.content.Intent(this, HistoriqueActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun basculerVersProduits() {
@@ -129,4 +137,11 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
     override fun afficherMessage(message: String) {
         android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
     }
+
+    // Pour naviguer vers les transactions
+    /* findViewById<Button>(R.id.TON_BOUTON_HISTORIQUE).setOnClickListener {
+        val intent = android.content.Intent(this, TransactionActivity::class.java)
+        startActivity(intent)
+    }
+    */
 }

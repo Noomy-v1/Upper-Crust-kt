@@ -1,5 +1,7 @@
 package com.example.boulangeriepos.presenter
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.boulangeriepos.model.Categorie
 import com.example.boulangeriepos.model.Panier
 import com.example.boulangeriepos.model.Produit
@@ -8,8 +10,6 @@ import com.example.boulangeriepos.model.RegistreVentes
 
 class TerminalVentePresenter (private val view: TerminalVenteContract.View) : TerminalVenteContract.Presenter {
     private val panier = Panier()
-
-    private val registre = RegistreVentes()
 
     private val inventaire = listOf(
         Produit(nom = "Baguette", prix = 1.20, stock = 50, categorie = Categorie.PAIN),
@@ -45,6 +45,7 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
         TODO("Not yet implemented")
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun cliquerValiderPanier() {
         if(panier.listeProduit.isEmpty()){
             view.afficherMessage("Panier vide")
@@ -57,7 +58,7 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
 
         val nouvelleTransaction = Transaction(produitsVendus = copiePanier, total = totalAPayer)
 
-        registre.ajouterTransaction(nouvelleTransaction)
+        RegistreVentes.ajouterTransaction(nouvelleTransaction)
 
         panier.viderPanier()
 

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoulangeriePOS">
         <activity
+            android:name=".view.HistoriqueActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
