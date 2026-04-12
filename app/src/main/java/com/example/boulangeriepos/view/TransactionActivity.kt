@@ -17,6 +17,10 @@ import com.example.boulangeriepos.presenter.TransactionPresenter
 import java.time.LocalDate
 import java.util.Calendar
 
+/**
+ * Activité responsable de l'affichage de l'historique des ventes de la boulangerie.
+ * Permet de consulter les anciennes factures, de filtrer par date et de voir les détails.
+ */
 class HistoriqueActivity : AppCompatActivity(), TransactionContract.View {
 
     private lateinit var presenter: TransactionPresenter
@@ -60,13 +64,20 @@ class HistoriqueActivity : AppCompatActivity(), TransactionContract.View {
         presenter.afficherHistorique()
     }
 
+    /**
+     * Met à jour la liste visuelle des transactions reçue du Presenter.
+     */
     override fun afficherTransaction(transactions: List<Transaction>) {
         adapter.mettreAJourListe(transactions)
     }
 
 
+    /**
+     * Ouvre un sélecteur de date (DatePicker) pour filtrer les ventes.
+     */
     //Code generer par Gemini
-    //Permet de faire afficher un calendrier pour le filtre des transactions
+//Permet de faire afficher un calendrier pour le filtre des transactions
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun afficherCalendrier() {
         val calendrier = Calendar.getInstance()
@@ -89,6 +100,10 @@ class HistoriqueActivity : AppCompatActivity(), TransactionContract.View {
         datePickerDialog.show()
     }
 
+    /**
+     * Génère et affiche un reçu détaillé pour une transaction spécifique via un pop-up.
+     * @param transaction La transaction dont on veut voir le détail des produits.
+     */
     private fun afficherDetailsTransaction(transaction: Transaction) {
         val recu = StringBuilder()
         transaction.produitsVendus.forEach { produit ->

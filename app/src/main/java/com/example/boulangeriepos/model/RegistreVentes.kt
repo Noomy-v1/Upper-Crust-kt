@@ -4,6 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.LocalDate
 
+/**
+ * Singleton (objet unique) agissant comme base de données en mémoire pour l'historique des ventes.
+ * L'utilisation du mot-clé 'object' garantit que tous les Presenters accèdent au même registre partagé.
+ */
+
 //Code genere a l'aide de Gemini -
 // Anciennement Class RegistreVentes mais remplacer par object ResgitreVentes car creer une erreur
 // pour appeler les fonctions dans la classe TransactionPresenter

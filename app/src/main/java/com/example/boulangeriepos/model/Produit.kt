@@ -2,6 +2,10 @@ package com.example.boulangeriepos.model
 
 import java.util.UUID
 
+/**
+ * Représente les grandes familles d'articles vendus à la boulangerie.
+ * Utilisé principalement pour filtrer l'affichage sur le terminal de vente.
+ */
 enum class Categorie {
     PAIN, VIENNOISERIE, PATISSERIE
 }

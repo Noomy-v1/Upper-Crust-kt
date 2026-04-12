@@ -18,8 +18,14 @@ import com.example.boulangeriepos.model.Produit
 import com.example.boulangeriepos.presenter.TerminalVenteContract
 import com.example.boulangeriepos.presenter.TerminalVentePresenter
 
+/**
+ * L'écran principal de l'application de point de vente.
+ * Agit en tant que "View" dans l'architecture MVP. Son seul rôle est de capter
+ * les actions de l'utilisateur (clics, texte tapé) et d'afficher les données fournies par le Presenter.
+ */
 class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
 
+    // --- DÉCLARATION DES VARIABLES ---
     private lateinit var presenter: TerminalVenteContract.Presenter
 
     private lateinit var produitAdapter: ProduitAdapter
@@ -34,19 +40,21 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
+        //Liaison avec les éléments de l'interface (XML)
         layoutCategories = findViewById(R.id.layoutCategories)
         recyclerViewProduits = findViewById(R.id.recyclerViewProduits)
         boutonRetour = findViewById(R.id.boutonRetour)
 
-        //element pour le panier
+        // Éléments pour le panneau latéral du panier
         layoutPanier = findViewById(R.id.layoutPanier)
         imagePanier = findViewById(R.id.imagePanier)
         boutonFermerPanier = findViewById(R.id.boutonFermerPanier)
 
 
+        //Configuration de la liste principale des produits (Inventaire)
+        // La lambda (produitClique) envoie le produit sélectionné directement au Presenter
         produitAdapter = ProduitAdapter(emptyList()) { produitClique ->
             presenter.cliquerProduit(produitClique)
         }
@@ -55,8 +63,10 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
         recyclerViewProduits.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerViewProduits.adapter = produitAdapter
 
+        //Initialisation du Cerveau (Presenter)
         presenter = TerminalVentePresenter(this)
 
+        //Configuration des boutons de navigation et de filtres
         boutonRetour.setOnClickListener {
             basculerVersCategories()
         }
@@ -76,17 +86,19 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
             presenter.cliquerCategorie(Categorie.PATISSERIE)
         }
 
-        //click sur l'icone panier
-        imagePanier.setOnClickListener {
-            layoutPanier.visibility = View.VISIBLE
-        }
-
         boutonFermerPanier.setOnClickListener {
             layoutPanier.visibility = View.GONE
         }
 
+        //Configuration de l'affichage du Panier
+        imagePanier.setOnClickListener {
+            layoutPanier.visibility = View.VISIBLE
+        }
+
+
         val recyclerViewPanier = findViewById<RecyclerView>(R.id.recyclerViewPanier)
 
+        // Le PanierAdapter renvoie deux infos au clic : le produit et la nouvelle quantité souhaitée
         panierAdapter = PanierAdapter(emptyList()) { produit, nouvelleQuantite ->
             if (nouvelleQuantite == 0) {
                 presenter.supprimerProduit(produit.id)
@@ -97,6 +109,7 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
         recyclerViewPanier.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerViewPanier.adapter = panierAdapter
 
+        //Actions de transaction
         findViewById<Button>(R.id.boutonValiderPanier).setOnClickListener {
             presenter.cliquerValiderPanier()
             layoutPanier.visibility = View.GONE
@@ -114,6 +127,7 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
             startActivity(intent)
         }
 
+        //Configuration de la barre de recherche en temps réel
         val barreRecherche = findViewById<android.widget.EditText>(R.id.barreRecherche)
 
         barreRecherche.addTextChangedListener(object : android.text.TextWatcher {
@@ -127,18 +141,25 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
         })
     }
 
+    /**
+     * Cache les catégories principales pour afficher la grille/liste des produits spécifiques.
+     */
     private fun basculerVersProduits() {
         layoutCategories.visibility = View.GONE
         recyclerViewProduits.visibility = View.VISIBLE
         boutonRetour.visibility = View.VISIBLE
     }
 
+    /**
+     * Cache la liste des produits pour revenir au menu principal des catégories.
+     */
     private fun basculerVersCategories() {
         recyclerViewProduits.visibility = View.GONE
         boutonRetour.visibility = View.GONE
         layoutCategories.visibility = View.VISIBLE
     }
 
+    // --- IMPLÉMENTATION DU CONTRAT (MÉTHODES CONTRÔLÉES PAR LE PRESENTER) ---
     override fun afficherProduits(produits: List<Produit>) {
         produitAdapter.mettreAJourListe(produits)
     }

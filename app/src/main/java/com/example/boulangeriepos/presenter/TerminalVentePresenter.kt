@@ -8,9 +8,15 @@ import com.example.boulangeriepos.model.Produit
 import com.example.boulangeriepos.model.Transaction
 import com.example.boulangeriepos.model.RegistreVentes
 
+/**
+ * Le "Cerveau" (Presenter) de l'écran de vente.
+ * Il contient toute la logique d'affaires de la boulangerie. Il reçoit les actions de la View,
+ * interagit avec les données (Panier, Inventaire), et dicte à la View ce qu'elle doit afficher.
+ */
 class TerminalVentePresenter (private val view: TerminalVenteContract.View) : TerminalVenteContract.Presenter {
     private val panier = Panier()
 
+    // Simulation d'une base de données d'inventaire
     private val inventaire = listOf(
         Produit(nom = "Baguette", prix = 1.20, stock = 50, categorie = Categorie.PAIN),
         Produit(nom = "Croissant", prix = 1.50, stock = 3, categorie = Categorie.VIENNOISERIE),
@@ -97,6 +103,10 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
         view.afficherProduits(resultats)
     }
 
+    /**
+     * Fonction utilitaire privée pour éviter la répétition de code.
+     * Met à jour à la fois la liste visuelle du panier et le total à payer.
+     */
   private fun mettreAJourVuePanier() {
        view.afficherPanier(panier.listeProduit)
       view.afficherTotalPanier(panier.calculerTotal())

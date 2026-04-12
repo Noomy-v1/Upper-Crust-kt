@@ -9,11 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boulangeriepos.R
 import com.example.boulangeriepos.model.Produit
 
+/**
+ * Adaptateur responsable d'afficher la liste des articles actuellement dans le panier.
+ * Fait le pont entre les données (liste de Produit) et l'interface visuelle (RecyclerView).
+ *
+ * @param produits La liste initiale des articles dans le panier.
+ * @param onChangementQuantite Fonction de rappel (callback) déclenchée quand l'employé clique sur "+" ou "-".
+ */
 class PanierAdapter(
     private var produits: List<Produit>,
     private val onChangementQuantite: (Produit, Int) -> Unit
 ) : RecyclerView.Adapter<PanierAdapter.PanierViewHolder>() {
 
+    /**
+     * Conserve les références vers les éléments visuels (TextView, Button) pour éviter
+     * de faire des 'findViewById' coûteux en performance à chaque défilement de la liste.
+     */
     class PanierViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val texteNom: TextView = view.findViewById(R.id.texteNomProduitPanier)
         val texteQuantite: TextView = view.findViewById(R.id.texteQuantitePanier)
@@ -53,6 +64,10 @@ class PanierAdapter(
     override fun getItemCount(): Int = produits.size
 
 
+    /**
+     * Remplace l'ancienne liste par la nouvelle et force le rafraîchissement de l'interface visuelle.
+     * @param nouvelleListe L'état le plus récent du panier fourni par le Presenter.
+     */
     fun mettreAJourListe(nouvelleListe: List<Produit>) {
         produits = nouvelleListe
         notifyDataSetChanged()
