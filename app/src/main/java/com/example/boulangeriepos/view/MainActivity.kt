@@ -88,15 +88,22 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
         val recyclerViewPanier = findViewById<RecyclerView>(R.id.recyclerViewPanier)
 
         panierAdapter = PanierAdapter(emptyList()) { produit, nouvelleQuantite ->
-            presenter.modifierQuantite(produit.id, nouvelleQuantite)
+            if (nouvelleQuantite == 0) {
+                presenter.supprimerProduit(produit.id)
+            } else {
+                presenter.modifierQuantite(produit.id, nouvelleQuantite)
+            }
         }
-
         recyclerViewPanier.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recyclerViewPanier.adapter = panierAdapter
 
         findViewById<Button>(R.id.boutonValiderPanier).setOnClickListener {
             presenter.cliquerValiderPanier()
             layoutPanier.visibility = View.GONE
+        }
+
+        findViewById<Button>(R.id.boutonAnnulerPanier).setOnClickListener {
+            presenter.cliquerAnnulerTransaction()
         }
 
         //Bouton pour acceder a l'historique des transactions
@@ -106,6 +113,18 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
             val intent = android.content.Intent(this, HistoriqueActivity::class.java)
             startActivity(intent)
         }
+
+        val barreRecherche = findViewById<android.widget.EditText>(R.id.barreRecherche)
+
+        barreRecherche.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                presenter.rechercherProduit(s.toString())
+            }
+
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
     }
 
     private fun basculerVersProduits() {
@@ -137,5 +156,7 @@ class MainActivity : AppCompatActivity(), TerminalVenteContract.View {
     override fun afficherMessage(message: String) {
         android.widget.Toast.makeText(this, message, android.widget.Toast.LENGTH_SHORT).show()
     }
+
+
 
 }

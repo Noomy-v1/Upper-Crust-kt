@@ -22,8 +22,14 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
     }
 
     override fun cliquerProduit(produit: Produit) {
-        panier.ajouterProduit(produit)
-        mettreAJourVuePanier()
+        val quantiteDansPanier = panier.listeProduit.find { it.id == produit.id }?.quantite ?: 0
+
+        if (produit.stock > quantiteDansPanier) {
+            panier.ajouterProduit(produit)
+            mettreAJourVuePanier()
+        }else {
+            view.afficherMessage("Désolé, ce produit (${produit.nom}) est en rupture de stock")
+        }
     }
 
     override fun cliquerCategorie(categorie: Categorie) {
@@ -33,18 +39,31 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
     }
 
     override fun modifierQuantite(idProduit: String, nouvelleQuantite: Int) {
-        panier.modifierQuantite(idProduit, nouvelleQuantite)
-        mettreAJourVuePanier()
+        val produitInventaire = inventaire.find { it.id == idProduit }
+
+        if (produitInventaire != null) {
+            if (nouvelleQuantite <= produitInventaire.stock) {
+                panier.modifierQuantite(idProduit, nouvelleQuantite)
+                mettreAJourVuePanier()
+            } else {
+                view.afficherMessage("Action impossible : Il ne reste que ${produitInventaire.stock} en stock.")
+            }
+        }
     }
 
-    //Prevu d'etre fait
     override fun supprimerProduit(idProduit: String) {
-        TODO("Not yet implemented")
+        panier.supprimerProduit(idProduit)
+        mettreAJourVuePanier()
+        view.afficherMessage("Produit supprimé")
     }
 
-    //Prevu d'etre fait
+
     override fun cliquerAnnulerTransaction() {
-        TODO("Not yet implemented")
+        if(panier.listeProduit.isNotEmpty()){
+            panier.viderPanier()
+            mettreAJourVuePanier()
+            view.afficherMessage("Transaction annulée!")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -55,17 +74,27 @@ class TerminalVentePresenter (private val view: TerminalVenteContract.View) : Te
         }
 
         //Sinon on creer la facture
-        val copiePanier = panier.listeProduit.toList()
+        val copiePanier = panier.listeProduit.map { it.copy() }
         val totalAPayer = panier.calculerTotal()
-
         val nouvelleTransaction = Transaction(produitsVendus = copiePanier, total = totalAPayer)
 
+        //soustraire le stock
+        for (produitVendu in panier.listeProduit) {
+            val produitInventaire = inventaire.find { it.id == produitVendu.id }
+            produitInventaire?.let { it.stock -= produitVendu.quantite }
+        }
         RegistreVentes.ajouterTransaction(nouvelleTransaction)
 
+        //On vide le panier une fois la transaction completee
         panier.viderPanier()
-
+        view.afficherProduits(inventaire)
         mettreAJourVuePanier()
         view.afficherMessage("Merci pour votre commande !")
+    }
+
+    override fun rechercherProduit(nom: String) {
+        val resultats = inventaire.filter { it.nom.contains(nom, ignoreCase = true) }
+        view.afficherProduits(resultats)
     }
 
   private fun mettreAJourVuePanier() {

@@ -44,6 +44,8 @@ class PanierAdapter(
         holder.boutonMoins.setOnClickListener {
             if (produit.quantite > 1) {
                 onChangementQuantite(produit, produit.quantite - 1)
+            }else if (produit.quantite == 1) {
+                onChangementQuantite(produit, 0)
             }
         }
     }

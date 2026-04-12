@@ -11,6 +11,7 @@ interface TerminalVenteContract {
         fun afficherPanier(produitPanier: List<Produit>)
         fun afficherTotalPanier(total : Double)
         fun afficherMessage(message : String)
+
     }
 
     interface Presenter{
@@ -20,5 +21,6 @@ interface TerminalVenteContract {
         fun supprimerProduit(idProduit: String)
         fun cliquerAnnulerTransaction()
         fun cliquerValiderPanier()
+        fun rechercherProduit(nom: String)
     }
 }

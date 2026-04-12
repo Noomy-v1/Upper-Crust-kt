@@ -18,6 +18,8 @@ class ProduitAdapter (private var produits: List<Produit>, private val auClicSur
         val imageProduit: ImageView = view.findViewById(R.id.imageProduit)
         val texteNomProduit: TextView = view.findViewById(R.id.texteNomProduit)
         val textePrixProduit: TextView = view.findViewById(R.id.textePrixProduit)
+
+        val texteStock: TextView = view.findViewById(R.id.texteStockProduit)
         val indicateurStock: View = view.findViewById(R.id.indicateurStock)
     }
 
@@ -31,7 +33,9 @@ class ProduitAdapter (private var produits: List<Produit>, private val auClicSur
         val produit = produits[position]
 
         holder.texteNomProduit.text = produit.nom
-        holder.textePrixProduit.text = "${produit.prix} $"
+        holder.textePrixProduit.text = String.format("%.2f $", produit.prix)
+
+        holder.texteStock.text = "Stock : ${produit.stock}"
 
         // Si le stock est de 5 ou moins, on affiche la pastille rouge
         if (produit.stock <= 5) {

@@ -7,9 +7,10 @@ class Panier {
     fun ajouterProduit(produit: Produit){
         val produitExist = listeProduit.find { it.id == produit.id }
         if(produitExist != null){
-            produit.quantite+=1
+            produitExist.quantite+=1
         }
         else {
+            produit.quantite = 1
             listeProduit.add(produit)
         }
 
